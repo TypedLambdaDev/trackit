@@ -10,6 +10,7 @@ package com.noted {
     import com.noted.model._
     import net.liftweb.http.S
     import net.liftweb.common.Full
+    import net.liftweb.common.Empty
     
     class Notes {
       var desc : String = _
@@ -27,23 +28,23 @@ package com.noted {
       }
 
       
-//      def addNotes() = {
-//
-//        if(desc.isEmpty()){
-//          S.error("Please enter a note")
-//        }else{
-//        Note.create.description(desc).save
-//        S.redirectTo("/")
-//        }
-//        
-//      }
+      def addNotes() = {
 
-      def addNotes() = S.param("desc") match {
+        if(desc.isEmpty()){
+          S.error("Please enter a note")
+        }else{
+        Note.create.description(desc).save
+        S.redirectTo("/")
+        }
+        
+      }
+
+      def addnotes() = S.param("desc") match {
         case Full(desc) => {
           Note.create.description(desc).save
         S.redirectTo("/")}
         
-        case _ => S.error("Please enter a note.")
+        case Empty => S.error("Please enter a note.")
       }
       
     
