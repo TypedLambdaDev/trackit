@@ -1,0 +1,6 @@
+.project
+.classpath
+lift_proto*db
+.cache
+.settings
+target

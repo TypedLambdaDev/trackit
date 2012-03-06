@@ -1,0 +1,17 @@
+<lift:surround with="default" at="content">
+	<div class="row">
+		<div class="span11">
+			<lift:Notes.add form="post">
+				<entry:desc />
+				<entry:submit />
+			</lift:Notes.add>
+		</div>
+	</div>
+
+	<lift:Notes.listAll>
+		<div class="row show-grid">
+			<div class="span10 lpad20"  ><note:desc /></div>
+		</div>
+	</lift:Notes.listAll>
+
+</lift:surround>
