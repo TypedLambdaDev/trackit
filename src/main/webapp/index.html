@@ -1,4 +1,4 @@
-	<div class="lift:surround?with=default;at=content">
+<lift:surround with="default" at="content">
 	<div class="row">
 		<div class="span11">
 			<lift:Notes.add form="post">
@@ -9,6 +9,7 @@
 	</div>
 
 <div class="lift:Notes.listAll row show-grid" >
-	<div class="span10 lpad20"><note:desc /></div>
+	<div class="span10 lpad20"><note:desc /> <a class="close rpad10 tpad10" href="#" >&times;</a></div>
 </div>
-</div>
+
+</lift:surround>
