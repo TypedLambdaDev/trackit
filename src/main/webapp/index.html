@@ -1,15 +1,15 @@
 <lift:surround with="default" at="content">
 	<div class="row">
 		<div class="span11">
-			<lift:Notes.add form="post">
-				<entry:desc />
+			<lift:Notes.noteForm form="post">
+				<entry:desc placeholder= "what do you want to note?"  class="xxlarge" value = ""/>
 				<entry:submit />
-			</lift:Notes.add>
+			</lift:Notes.noteForm >
 		</div>
 	</div>
 
 <div class="lift:Notes.listAll row show-grid" >
-	<div class="span10 lpad20"><note:desc /> <a class="close rpad10 tpad10" href="#" >&times;</a></div>
+	<div class="span10 lpad20"><note:desc /> <note:deleteLink class="close rpad10 tpad10" /></div>
 </div>
 
 </lift:surround>

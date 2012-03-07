@@ -2,6 +2,7 @@ package com.noted {
   package snippet {
 
     import scala.xml.NodeSeq
+    import scala.xml.Unparsed
     import net.liftweb.util.Helpers
     import scala.xml.Text
     import net.liftweb.http.SHtml
@@ -9,50 +10,43 @@ package com.noted {
     import net.liftweb.http.RequestVar
     import com.noted.model._
     import net.liftweb.http.S
-    import net.liftweb.common.Full
-    import net.liftweb.common.Empty
+    import net.liftweb.common._
     
     class Notes {
-      var desc : String = _
-      def add(in: NodeSeq): NodeSeq = {
+
+      def noteForm(in: NodeSeq): NodeSeq = {
 
         bind("entry", in,
-          "desc" -> SHtml.text(desc, desc = _, "placeholder" -> "what do you want to note?", "class" -> "xxlarge","value"->""),
-          "submit" -> SHtml.submit("Note It !", addNotes, "class" -> "btn primary"))
+          "desc" -%> SHtml.text(note.description.is,note.description(_)),
+          "submit" -> SHtml.submit("Note It !", add, "class" -> "btn primary"))
       }
 
       def listAll(in: NodeSeq): NodeSeq = {
-        Note.allNotes.flatMap(note =>
+        Note.allNotes.reverse.flatMap(note =>
           bind("note", in,
-            "desc" -> note.description))
+            "desc" -> note.description,
+            "deleteLink" -%> SHtml.link("/", () => delete(note),Unparsed("&times;"))))
       }
 
-      
-      def addNotes() = {
-
-        if(desc.isEmpty()){
-          S.error("Please enter a note")
-        }else{
-        Note.create.description(desc).save
-        S.redirectTo("/")
+      def add() = {
+        if (note.description.isEmpty()) {
+          S.error("Please enter a note.")
+        } else {
+          note.save
+          S.redirectTo("/")
         }
-        
-      }
 
-      def addnotes() = S.param("desc") match {
-        case Full(desc) => {
-          Note.create.description(desc).save
-        S.redirectTo("/")}
-        
-        case Empty => S.error("Please enter a note.")
       }
       
-    
-
+      def delete(note: Note) = {
+        note.delete_!
+        S.redirectTo("/")
+      }
 
     }
+    
+    object note extends RequestVar[Note]({Note.create})
 
-//    object desc extends RequestVar[String]("")
   }
 }
 
