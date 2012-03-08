@@ -19,7 +19,7 @@ package com.noted {
 
         bind("f", in,
           "desc" -%> SHtml.text(note.description.is,note.description(_)),
-          "submit" -%> SHtml.ajaxSubmit("Note It !", add))
+          "submit" -%> SHtml.submit("Note It !", add))
       }
 
       def listAll(in: NodeSeq): NodeSeq = {

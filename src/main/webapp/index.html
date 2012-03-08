@@ -1,14 +1,11 @@
 <lift:surround with="default" at="content">
 
 	<div class="row">
-
 		<div class="span11">
-			<form class="lift:form.ajax">
-				<lift:Notes.noteForm>
-					<f:desc id="desc" placeholder="what do you want to note?" class="xxlarge" />
-					<f:submit class="btn primary" />
-				</lift:Notes.noteForm>
-			</form>
+			<lift:Notes.noteForm form="post">
+				<f:desc id="desc" placeholder="what do you want to note?" class="xxlarge" />
+				<f:submit class="btn primary"/>
+			</lift:Notes.noteForm>
 		</div>
 	</div>
 
@@ -17,7 +14,7 @@
 			<lift:msg id="descError" errorClass="alert-message error" />
 		</div>
 	</div>
-
+	
 	<div class="lift:Notes.listAll row show-grid">
 		<div class="span10 lpad20">
 			<note:desc />
