@@ -12,37 +12,38 @@ package com.noted {
   import net.liftweb.http.S
   import net.liftweb.common._
   import net.liftweb.http.js.JsCmd
+  import com.noted.comet.NotesServer
     
-    class Notes {
+    object Notes {
 
       def noteForm(in: NodeSeq): NodeSeq = {
-
+    		  println("Notes snippet noteform")
         bind("f", in,
           "desc" -%> SHtml.text(note.description.is,note.description(_)),
-          "submit" -%> SHtml.ajaxSubmit("Note It !", add))
+          "submit" -%> SHtml.submit("Note It !", add)) ++ SHtml.hidden(add _)
       }
 
-      def listAll(in: NodeSeq): NodeSeq = {
-        Note.allNotes.reverse.flatMap(note =>
-          bind("note", in,
-            "desc" -> note.description,
-            "deleteLink" -%> SHtml.link("/", () => delete(note),Unparsed("&times;"))))
+     
+ 
+      def delete(id: Long): JsCmd = {
+        println("delete")
+        var n = Note.findByKey(id)
+        n.openTheBox.delete_!
+        S.error("descError","note deleted")
       }
 
-      def add(): JsCmd = {
+      def add() = {
+        
+        println("note desc is "+note.description)
         if (note.description.isEmpty()) {
           S.error("descError","Please enter a note")
         } else {
-          note.save
-          S.redirectTo("/")
+          NotesServer ! note.is
         }
 
       }
       
-      def delete(note: Note) = {
-        note.delete_!
-        S.redirectTo("/")
-      }
+
 
     }
     

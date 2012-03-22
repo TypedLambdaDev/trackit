@@ -5,7 +5,8 @@
 		<div class="span11">
 			<form class="lift:form.ajax">
 				<lift:Notes.noteForm>
-					<f:desc id="desc" placeholder="what do you want to note?" class="xxlarge" />
+					<f:desc id="desc" placeholder="what do you want to note?"
+						class="xxlarge" />
 					<f:submit class="btn primary" />
 				</lift:Notes.noteForm>
 			</form>
@@ -18,10 +19,12 @@
 		</div>
 	</div>
 
-	<div class="lift:Notes.listAll row show-grid">
-		<div class="span10 lpad20">
-			<note:desc />
-			<note:deleteLink class="close rpad10 tpad10" />
+	<div class="lift:comet?type=NotesComet" id="notes">
+		<div class="row show-grid">
+			<div class="note span10 lpad20">
+				<div style="display: inline" class="desc"></div>
+				<a class="close rpad10 tpad10" href="">&times;</a>
+			</div>
 		</div>
 	</div>
 
