@@ -26,7 +26,7 @@ package com.noted {
         Note.allNotes.reverse.flatMap(note =>
           bind("note", in,
             "desc" -> note.description,
-            "deleteLink" -%> SHtml.link("/", () => delete(note),Unparsed("&times;"))))
+            "deleteLink" -%> SHtml.a(() => delete(note),Unparsed("&times;"))))
       }
 
       def add(): JsCmd = {
@@ -39,7 +39,7 @@ package com.noted {
 
       }
       
-      def delete(note: Note) = {
+      def delete(note: Note):JsCmd = {
         note.delete_!
         S.redirectTo("/")
       }
