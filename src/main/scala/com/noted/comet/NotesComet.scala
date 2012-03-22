@@ -26,13 +26,7 @@ class NotesComet extends CometActor with CometListener {
 
   def render = "#notes" #> {
     (notes.reverse.map(note => ".desc *" #> note.description &
-      ".close [onClick]" #> ajaxInvoke(() => delete(note))))
+      ".close [onclick]" #> ajaxInvoke(() => Notes.delete(note))))
   }
   
-  
-      def delete(note: Note): JsCmd = {
-        println("delete")
-        note.delete_!
-        S.error("descError","note deleted")
-      }
 }

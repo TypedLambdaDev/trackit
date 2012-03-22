@@ -8,9 +8,8 @@ object NotesServer extends LiftActor with ListenerManager {
   def createUpdate =  Note.allNotes
   
   
-  override def lowPriority = {
-    case note: Note => note.save ; updateListeners()
-    case s: String =>  updateListeners()
+  override def lowPriority = _ match{
+      case "refresh" => updateListeners()
   }
 
 }

@@ -25,10 +25,9 @@ package com.noted {
 
      
  
-      def delete(id: Long): JsCmd = {
+      def delete(note: Note): JsCmd = {
         println("delete")
-        var n = Note.findByKey(id)
-        n.openTheBox.delete_!
+        note.delete_!
         NotesServer ! "refresh"
         S.error("descError","note deleted")
       }
@@ -39,7 +38,8 @@ package com.noted {
         if (note.description.isEmpty()) {
           S.error("descError","Please enter a note")
         } else {
-          NotesServer ! note.is
+          note.save
+          NotesServer ! "refresh"
         }
 
       }
