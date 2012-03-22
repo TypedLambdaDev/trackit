@@ -10,6 +10,8 @@ import Helpers._
 import net.liftweb.http.js.JsCmds
 import SHtml._
 import com.noted.snippet.Notes
+import net.liftweb.http.js.JsCmd
+import net.liftweb.http.S
 
 class NotesComet extends CometActor with CometListener {
   private var notes: List[Note] = List()
@@ -24,6 +26,13 @@ class NotesComet extends CometActor with CometListener {
 
   def render = "#notes" #> {
     (notes.reverse.map(note => ".desc *" #> note.description &
-      ".close [onClick]" #> ajaxInvoke(() => Notes.delete(note.id.toLong))))
+      ".close [onClick]" #> ajaxInvoke(() => delete(note))))
   }
+  
+  
+      def delete(note: Note): JsCmd = {
+        println("delete")
+        note.delete_!
+        S.error("descError","note deleted")
+      }
 }

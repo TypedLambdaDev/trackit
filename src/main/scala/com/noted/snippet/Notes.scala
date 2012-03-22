@@ -29,6 +29,7 @@ package com.noted {
         println("delete")
         var n = Note.findByKey(id)
         n.openTheBox.delete_!
+        NotesServer ! "refresh"
         S.error("descError","note deleted")
       }
 
