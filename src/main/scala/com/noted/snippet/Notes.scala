@@ -17,43 +17,44 @@ package com.noted {
 
     class Notes {
 
-        def noteForm(in: NodeSeq): NodeSeq = {
+      def noteForm(in: NodeSeq): NodeSeq = {
 
-          bind("f", in,
-            "desc" -%> SHtml.text(note.description.is, note.description(_)),
-            "submit" -%> SHtml.submit("Note It !", add)) ++ SHtml.hidden(add _) 
+        bind("f", in,
+          "desc" -%> SHtml.text(note.description.is, note.description(_)),
+          "submit" -%> SHtml.submit("Note It !", add)) ++ SHtml.hidden(add _)
+
+      }
+
+      def listAll(in: NodeSeq): NodeSeq = {
+        Note.allNotes.reverse.flatMap(note =>
+          bind("note", in,
+            "desc" -> note.description,
+            "deleteLink" -%> SHtml.link("/", () => delete(note), Unparsed("&times;"))))
+      }
+
+      lazy val renderList = SHtml.idMemoize { outer => "ul" #> { "li *+" #> Note.allNotes.reverse.map(_.description) } }
+
+      def add(): JsCmd = {
+        if (note.description.isEmpty()) {
+          S.error("descError", "Please enter a note")
+        } else {
+          note.save
+          //SetHtml("notesList",renderList.applyAgain())
+          renderList.setHtml()
 
         }
 
-        def listAll(in: NodeSeq): NodeSeq = {
-          Note.allNotes.reverse.flatMap(note =>
-            bind("note", in,
-              "desc" -> note.description,
-              "deleteLink" -%> SHtml.link("/", () => delete(note), Unparsed("&times;"))))
-        }
+      }
 
-        def renderList = SHtml.idMemoize{outer => "ul" #> {"li *+" #> Note.allNotes.reverse.map(_.description)}}
+      def render = {
+        "#notesList" #> renderList
+      }
 
-        def add(): JsCmd = {
-          if (note.description.isEmpty()) {
-            S.error("descError", "Please enter a note")
-          } else {
-            note.save
-            SetHtml("notesList",renderList.applyAgain())
-           S.error("descError", "note saved")
-          }
+      def delete(note: Note): JsCmd = {
+        note.delete_!
+        S.error("descError", "note deletd")
+      }
 
-        }
-        
-        def render = {
-          "#notesList" #> renderList
-        }
-
-        def delete(note: Note): JsCmd = {
-          note.delete_!
-          S.error("descError", "note deletd")
-        }
-       
     }
 
     object note extends RequestVar[Note]({ Note.create })
